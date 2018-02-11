@@ -131,47 +131,58 @@ function addToInventory(){
 }
 
 function addProduct(){
-    inquirer.prompt([
-        {
-            type: 'input',
-            message: 'What is the name of item you would like to add?',
-            name: 'name'
-        },
-        {
-            type: 'input',
-            message: 'Name the department for this item.',
-            name: 'department'
-        },
-        {
-            type: 'input',
-            message: 'What is the retail price for a single item?',
-            name: 'price'
-        },
-        {
-            type: 'input',
-            message: 'Please enter quantity of the item.',
-            name: 'quantity'
+    var departmentNames = [];
+    connection.query(
+        'SELECT * FROM departments',
+        function(err, res){
+            if(err) throw err;
+            res.forEach(element => {
+                departmentNames.push(element.department_name);
+            });
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    message: 'What is the name of item you would like to add?',
+                    name: 'name'
+                },
+                {
+                    type: 'list',
+                    message: 'Select the department for this item.',
+                    name: 'department',
+                    choices: departmentNames
+                },
+                {
+                    type: 'input',
+                    message: 'What is the retail price for a single item?',
+                    name: 'price'
+                },
+                {
+                    type: 'input',
+                    message: 'Please enter quantity of the item.',
+                    name: 'quantity'
+                }
+            ]).then(function(responce){
+                var product_name = responce.name;
+                var department_name = responce.department;
+                var price = parseFloat(responce.price);
+                var stock_quantity = parseInt(responce.quantity);
+                connection.query(
+                    'INSERT INTO products SET ?', 
+                    [{
+                        product_name: product_name,  
+                        department_name: department_name, 
+                        price: price,
+                        stock_quantity: stock_quantity
+                    }],
+                    function(err, res){
+                        if(err) throw err;
+                        console.log('Item ', product_name, ' was successfully added to inventory.\n');
+                        whatsNext();
+                    }
+                )
+            })
         }
-    ]).then(function(responce){
-        var product_name = responce.name
-        var department_name = responce.department
-        var price = parseFloat(responce.price);
-        var stock_quantity = parseInt(responce.quantity);
-        connection.query(
-            'INSERT INTO products SET ?', 
-            [{
-                product_name: product_name,  
-                department_name: department_name, 
-                price: price,
-                stock_quantity: stock_quantity
-            }],
-            function(err, res){
-                if(err) throw err;
-                console.log('Item ', product_name, ' was successfully added to inventory.\n');
-                initialPrompt();
-            }
-        )
-    })
+    )
 }
 
 function whatsNext(){

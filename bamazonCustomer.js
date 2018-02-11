@@ -24,7 +24,6 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err){
     if(err) throw err;
-    // console.log('connected as: ' + connection.threadId);
 })
 
 initialPrompt();
@@ -44,7 +43,6 @@ function initialPrompt(){
         setTimeout(wannaBuy, 500);
     });
 }
-
 
 // The app should then prompt users with two messages.
 //    * The first should ask them the ID of the product they would like to buy.
@@ -92,7 +90,18 @@ function placeOrder(id, itemsRequested, dbQuantity, price){
         "UPDATE products SET stock_quantity = " + itemsLeft + " WHERE item_id = " + id,
         function(err, res){
             if(err) throw err;
-            console.log('Please transfer $' + parseFloat(itemsRequested * price).toFixed(2) + ' to Anastasia\'s account\n');
+            var purchaseSum = parseFloat(itemsRequested * price).toFixed(2);
+            console.log('Please transfer $' + purchaseSum + ' to Anastasia\'s account\n');
+            connection.query(
+                'UPDATE products SET ? WHERE ?', [
+                    {
+                        product_sales: purchaseSum,
+                    },
+                    {
+                        item_id: id
+                    }
+                ]
+            )
             whatsNext();
         }
     )

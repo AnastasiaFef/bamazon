@@ -18,3 +18,21 @@ VALUES ('mascara', 'cosmetics', 13.4, 3672), ('iPhone 5', 'electronics', 638, 3)
 ('tulip', 'flowers', 3.33, 221), ('potato', 'food', 0.31, 721);
 
 SELECT * FROM products;
+
+CREATE TABLE departments(
+    department_id INTEGER(20) AUTO_INCREMENT PRIMARY KEY,
+    department_name VARCHAR(20) NOT NULL,
+    over_head_costs DECIMAL(10,2) NOT NULL
+);
+
+SELECT department_name FROM products
+GROUP BY department_name;
+
+INSERT INTO departments(department_name, over_head_costs)
+VALUES ('clothes', 300.21), ('cosmetics', 241), ('electronics', 251), ('flowers', 531), 
+('food', 241), ('furniture', 241.45), ('travel', 382);
+
+SELECT * FROM departments;
+
+ALTER TABLE products
+ADD product_sales DECIMAL(10,2);
