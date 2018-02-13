@@ -58,13 +58,13 @@ function wannaBuy(){
         type: 'input',
         message: 'How many would you like to buy?',
         name: 'quantity'
-    }]).then(function(responce){
+    }]).then(function(response){
             connection.query(
-                "SELECT * FROM products WHERE item_id =" + responce.id,
+                "SELECT * FROM products WHERE item_id =" + response.id,
                 (function(err, res){
                 if(err) throw err;
                 var dbQuantity = res[0].stock_quantity;
-                if(dbQuantity < responce.quantity){
+                if(dbQuantity < response.quantity){
                     console.log('Sorry we only have ' + dbQuantity + ' items in stock, please come back later!\n');
                     whatsNext();
                 }
@@ -75,7 +75,7 @@ function wannaBuy(){
                     // * This means updating the SQL database to reflect the remaining quantity.
                     // * Once the update goes through, show the customer the total cost of their purchase.
                     
-                    placeOrder(res[0].item_id, responce.quantity, dbQuantity, res[0].price);
+                    placeOrder(res[0].item_id, response.quantity, dbQuantity, res[0].price);
                 }
             })
         )
@@ -115,9 +115,9 @@ function whatsNext(){
             name: 'next',
             choices: ['I want to try again!', 'Let me out of here']
         }
-    ]).then(function(responce){
+    ]).then(function(response){
         console.log('\n');
-        if(responce.next === 'I want to try again!'){
+        if(response.next === 'I want to try again!'){
             initialPrompt();
         }
         else{

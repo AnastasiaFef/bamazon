@@ -26,9 +26,9 @@ function initialPrompt(){
             name: 'action',
             choices: ['View Products for Sale', 'View Low Inventory', 'Add to Inventory', 'Add New Product']
         }
-    ]).then(function(responce){
-        console.log(responce.action)
-        switch (responce.action) {
+    ]).then(function(response){
+        console.log(response.action)
+        switch (response.action) {
             case 'View Products for Sale': 
                 viewProducts();
                 break;
@@ -161,11 +161,11 @@ function addProduct(){
                     message: 'Please enter quantity of the item.',
                     name: 'quantity'
                 }
-            ]).then(function(responce){
-                var product_name = responce.name;
-                var department_name = responce.department;
-                var price = parseFloat(responce.price);
-                var stock_quantity = parseInt(responce.quantity);
+            ]).then(function(response){
+                var product_name = response.name;
+                var department_name = response.department;
+                var price = parseFloat(response.price);
+                var stock_quantity = parseInt(response.quantity);
                 connection.query(
                     'INSERT INTO products SET ?', 
                     [{
@@ -193,9 +193,9 @@ function whatsNext(){
             name: 'next',
             choices: ['I love managing so much, let me do it again!', 'Ohh, I am tired of managing... :(']
         }
-    ]).then(function(responce){
+    ]).then(function(response){
         console.log('\n');
-        if(responce.next === 'I love managing so much, let me do it again!'){
+        if(response.next === 'I love managing so much, let me do it again!'){
             initialPrompt();
         }
         else{
