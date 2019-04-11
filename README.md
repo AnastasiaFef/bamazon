@@ -16,6 +16,7 @@ You're all set to enjoy bamazon app! Here is what you can do:
 -
 - run $node bamazonSupervisor. Here you can view product sales by department.
 https://drive.google.com/file/d/1-7Itm1TPLqlm5V8kcjkTGHHFseCvFtye/view?usp=sharing
+[![Demo 1-1](https://media.giphy.com/media/gjgZV2IMSOru1I1ACi/giphy.gif)](https://drive.google.com/file/d/1-7Itm1TPLqlm5V8kcjkTGHHFseCvFtye/view?usp=sharing)
 
 - run $node bamazonManager. 
 https://drive.google.com/open?id=14U-eXKlZ2yfWabW70CnKdRKtA6FO-WTW
